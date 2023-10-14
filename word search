@@ -1,0 +1,38 @@
+//word search program
+
+#include <stdio.h>
+#include <string.h>
+void main()
+{
+	char arr1[100], arr2[100];
+	int i, j=0, sum=0;
+	
+	gets_s(arr1);
+	gets_s(arr2);
+
+	for (i = 0; i < strlen(arr1); i++)
+	{
+		if (arr1[i] == ' ')
+		{
+			i++;
+			while (1)
+			{
+				if (arr1[i] != arr2[j])
+					break;
+				j++;
+				i++;
+				if (arr2[j] == '\0')
+				{
+					if (arr1[i] == ' ')
+						sum++;
+					i--;
+					break;
+					
+				}
+			}
+		}
+			
+		j = 0;
+	}
+	printf("%d" ,sum);
+}
