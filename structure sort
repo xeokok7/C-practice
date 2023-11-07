@@ -3,13 +3,12 @@
 #include <string.h>
 #define SIZE 20
 
-void swap(struct P *, struct P *);
+void swap(struct P*, struct P*);
 
 struct P {
 	char name[10];
 	int age;
 	char hobby[20];
-	struct P* peo;
 };
 
 
@@ -17,8 +16,7 @@ int main()
 {
 	FILE* File;
 	struct P person[SIZE] = {};
-	int i=0, j;
-	char * names[2] = {};
+	int i = 0, j;
 
 	if (fopen_s(&File, "personal.txt", "r") > 0) // text read
 	{
@@ -26,45 +24,40 @@ int main()
 		return 1;
 	}
 
-	
-	while (!feof(File))// read한 자료를 구조체 배열에 넣기
-	{
-		fscanf(File, "%s %d %s", &person[i].name, &person[i].age, &person[i].hobby);
-		i++;
-	}
 
+	while (fscanf(File, "%s %d %s", &person[i].name, &person[i].age, &person[i].hobby) != EOF)// read한 자료를 구조체 배열에 넣기
+		i++;
 
 	i = 0;
-	
+
 	for (i = 0; i < SIZE; i++) // age 오름차순 정렬
 		for (j = i + 1; j < SIZE; j++)
 			if (person[i].age > person[j].age)
 				swap(&person[i], &person[j]);
+	printf("// age sorting\n\n");
+	for (i = 0; i < SIZE; i++) // 결과 출력
+		printf("%s %d %s\n", person[i].name, person[i].age, person[i].hobby);
 
+	printf("\n-------------------------------------------\n"); // 경계선
 
 	for (i = 0; i < SIZE; i++) // name 오름차순 정렬
 		for (j = i + 1; j < SIZE; j++)
 		{
-			strcpy(names[0], person[i].name);
-			strcpy(names[1], person[j].name);
-			if (strcmp(names[0], names[1]) > 0)
+			if (strcmp(person[i].name, person[j].name) > 0)
 				swap(&person[i], &person[j]);
-		} 
-			
-
-
+		}
+	printf("//name sorting\n\n");
 	for (i = 0; i < SIZE; i++) // 결과 출력
 		printf("%s %d %s\n", person[i].name, person[i].age, person[i].hobby);
-	
+
 	fclose(File);
 	return 0;
 }
 
-void swap(struct P* sper1, struct P* sper2)  // swap
+void swap(struct P* sper1, struct P* sper2)  // 스왑 함수
 {
 	struct P temp;
 	temp = *sper1;
 	*sper1 = *sper2;
 	*sper2 = temp;
 }
-
