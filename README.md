@@ -1,2 +1,2 @@
-# temp-repo
-This is my repository for practice.
+
+This is my repository for C practice.
