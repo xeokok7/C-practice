@@ -1,4 +1,4 @@
-// 데이터 업데이트
+// 데이터 업데이트 (40대는 급여 10% 인상, 30대는 20% 인상 프로그램 )
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #define SIZE 20
