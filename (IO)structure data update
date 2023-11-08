@@ -1,0 +1,86 @@
+// 데이터 업데이트
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#define SIZE 20
+
+void ten(struct SAL *, int);
+
+struct SAL {
+	char name[10];
+	int age;
+	float money;
+};
+
+int main()
+{
+	struct SAL salary[SIZE] = {};
+	FILE* rFile;
+	FILE* wFile1;
+	FILE* wFile2;
+	int i=0, temp;
+
+	if (fopen_s(&rFile, "salary_v1.txt", "r") > 0) // read data
+	{
+		printf("can't open");
+
+		return 1;
+	}
+
+	while (fscanf(rFile, "%s %d %f", &salary[i].name, &salary[i].age, &salary[i].money) != EOF) // 데이터를 구조체에 넣기
+		i++;
+
+	if (fopen_s(&wFile1, "salary_v2.txt", "w") > 0) //write first updated data
+	{
+		printf("error");
+		return 1;
+	}
+
+	for (i = 0; i < SIZE; i++) // check 40대 and 급여 인상
+	{
+		if (salary[i].age >= 40 && salary[i].age < 50)
+			ten(&salary[i], 10);
+	}
+	
+	for(i=0; i<SIZE; i++) // print salary_v2
+		fprintf(wFile1, "%s %d %0.3f\n", salary[i].name, salary[i].age, salary[i].money);
+
+	if (fopen_s(&wFile2, "salary_v3.txt", "w") > 0) //write second updated data
+	{
+		printf("error");
+		return 1;
+	}
+
+
+	for (i = 0; i < SIZE; i++) // check 30대 and 급여 인상
+	{
+		if (salary[i].age >= 30 && salary[i].age < 20)
+			ten(&salary[i], 20);
+	}
+
+	for (i = 0; i < SIZE; i++) // print salary_v3
+		fprintf(wFile2, "%s %d %0.3f\n", salary[i].name, salary[i].age, salary[i].money);
+
+	fclose(rFile);
+	fclose(wFile1);
+	fclose(wFile2);
+
+	return 0;
+
+}
+
+void ten(struct SAL* s, int x)
+{
+	float temp;
+
+	if (x == 10) // 40대 인상
+	{
+		temp = (*s).money / 10;
+		(*s).money += temp;
+	}
+
+	else  // 30대 인상
+	{
+		temp = (*s).money / 20;
+		(*s).money += temp;
+	}
+}
