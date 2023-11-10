@@ -53,7 +53,7 @@ int main()
 
 	for (i = 0; i < SIZE; i++) // check 30대 and 급여 인상
 	{
-		if (salary[i].age >= 30 && salary[i].age < 20)
+		if (salary[i].age >= 30 && salary[i].age < 40)
 			ten(&salary[i], 20);
 	}
 
