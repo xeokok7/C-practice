@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int InsertKey();
+void ScanList();
+int i;
+
+
+struct NODE {
+    int key;
+    struct NODE* next;
+}node[7];
+
+struct NODE head = {};
+
+void main()
+{
+
+    i = 3;
+    int num;
+    node[0].key = 100; // key insert
+    node[1].key = 250;
+    node[2].key = 467;
+
+    head.next = &node[0]; // link
+    node[0].next = &node[1];
+    node[1].next = &node[2];
+
+    while (i < 6)
+    {
+        printf("//---Inserting Key : ");
+        scanf_s("%d", &node[i].key);
+        num = InsertKey();
+
+        if (num == -1)
+        {
+            printf("Key already exists\n");
+            continue;
+        }
+
+        else if (num == 0)
+            printf("key inserted..\n");
+        i++;
+    }
+
+    ScanList();
+
+}
+
+int InsertKey()
+{
+    struct NODE* ptr = head.next;
+    struct NODE* prev=&head;
+    int j = 0;
+
+    while (j < i)
+    {
+        if ((*ptr).key == node[i].key)
+            return -1;
+
+        if (ptr->key < node[i].key)
+        {
+            prev = ptr;
+            ptr = ptr->next;
+        }
+        else if (ptr->key > node[i].key)
+        {
+            prev->next = &node[i];
+            node[i].next = ptr;
+            return 0;
+        }
+        j++;
+    }
+
+    prev->next = &node[i]; // 가장 큰값을 입력했을 경우
+    return 0;
+}
+
+void ScanList()
+{
+    int j;
+    struct NODE* ptr = head.next;
+
+    for (j = 0; j < 7; j++)
+    {
+        printf("node[%d].key : %d\n", j, (*ptr).key);
+        ptr = ptr->next;
+    }
+}
