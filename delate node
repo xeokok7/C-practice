@@ -1,0 +1,99 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int InsertKey();
+void ScanList();
+void ClearList();
+int i;
+
+
+struct NUM {
+    int key;
+    struct NUM* next;
+};
+
+struct NUM* nums = (struct NUM*)malloc(10 * sizeof(struct NUM)); // 동적 할당
+
+struct NUM head = {}; // link 의 head 선언
+
+void main()
+{
+    int intnums[10] = { 17, 39, 11, 9, 42, 12, 15, 8, 13, 41 };
+    i = 0;
+
+    head.next = &nums[0]; // link
+
+    while (i < 10)
+    {
+        nums[i].key = intnums[i];
+        printf("//---Inserting Key : %d\n", nums[i].key);
+        InsertKey();
+        printf("[%d] elements. key inserted..\n", i);
+
+        i++;
+    }
+
+    printf("\nTraversing the linked list..\n");
+    ScanList();
+    printf("\nDelating the linked list..\n");
+    ClearList();
+    free(nums);
+}
+
+int InsertKey()
+{
+    struct NUM* ptr = head.next;
+    struct NUM* prev = &head;
+    int j = 0;
+
+    while (j < i)
+    {
+        if (ptr->key < nums[i].key)
+        {
+            prev = ptr;
+            ptr = ptr->next;
+        }
+        else if (ptr->key > nums[i].key)
+        {
+            prev->next = &nums[i];
+            nums[i].next = ptr;
+            return 0;
+        }
+        j++;
+    }
+
+    prev->next = &nums[i]; // 가장 큰값을 입력했을 경우
+    return 0;
+}
+
+void ScanList()
+{
+    int j;
+    struct NUM* ptr = head.next;
+
+    for (j = 0; j < 10; j++)
+    {
+        printf("node[%d].key : %d\n", j, (*ptr).key);
+        ptr = ptr->next;
+    }
+}
+
+void ClearList()
+{
+    int j;
+    struct NUM* ptr = head.next;
+    struct NUM* temp;
+    struct NUM* prev = &head;
+
+    for (j = 0; j < 10; j++)
+    {
+        temp = ptr->next;
+        prev->next = ptr->next;
+        (*ptr).next = NULL;
+        ptr = temp;
+        
+
+        printf("node[%d] delated..\n", j);
+    }
+}
